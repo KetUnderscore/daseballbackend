@@ -78,6 +78,14 @@ router.get('/playerbyid/:_id', async (req, res) => {
     }
 })
 
+router.get('/playerData/', async (req, res) => {
+    const playerData = await PlayerStats.find({})
+
+    if (playerData) {
+        res.send(JSON.stringify(playerData))
+    }
+})
+
 router.get('/playerData/:name', async (req, res) => {
     const playerData = await PlayerStats.find(req.params)
 

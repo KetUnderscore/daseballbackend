@@ -7,12 +7,68 @@ const Game = require('../models/Game')
 const Season = require('../models/Season')
 const { currentActiveSeason } = require('../config.json')
 
-// Player Related Routes
+// Player Related Routesrouter.get('/players/:sortype/:name', async (req, res) => {
+router.get('/players/:sortype', async (req, res) => {
+    let currentseason = currentActiveSeason // Current season here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    let playerData = await Player.find({})
+
+    if (req.params.sortype === 'total') {
+        playerData.sort((a, b) => 
+            (b.battery+b.assault+b.resistingArrest+b.praying+b.publicity+b.pope+b.hammer+b.stalin+b.sickle+b.clooning+b.throwing+b.batman) -
+            (a.battery+a.assault+a.resistingArrest+a.praying+a.publicity+a.pope+a.hammer+a.stalin+a.sickle+a.clooning+a.throwing+a.batman))
+    }
+    if (req.params.sortype === 'pitching') {
+        playerData.sort((a, b) => (b.praying+b.publicity+b.pope) - (a.praying+a.publicity+a.pope))
+    }
+    if (req.params.sortype === 'batting') {
+        playerData.sort((a, b) => (b.battery+b.assault+b.resistingArrest) - (a.battery+a.assault+a.resistingArrest))
+    }
+    if (req.params.sortype === 'running') {
+        playerData.sort((a, b) => (b.hammer+b.stalin+b.sickle) - (a.hammer+a.stalin+a.sickle))
+    }
+    if (req.params.sortype === 'fielding') {
+        playerData.sort((a, b) => (b.clooning+b.throwing+b.batman) - (a.clooning+a.throwing+a.batman))
+    }
+    if (req.params.sortype === "battingaverage") {
+            playerData = await PlayerStats.find({season: currentseason, atbats: {$gt: 0}})
+            playerData.sort((a, b) => (Math.round((b.hitsgot/(b.atbats+1))*100)/100) - (Math.round((a.hitsgot/(a.atbats+1))*100)/100))
+    }
+    if (req.params.sortype === "onbasepercentage") {
+            playerData = await PlayerStats.find({season: currentseason, atbats: {$gt: 0}})
+            playerData.sort((a, b) => (Math.round(((b.hitsgot+b.walksgot)/(b.atbats+1))*100)/100) - (Math.round(((a.hitsgot+a.walksgot)/(a.atbats+1))*100)/100))
+    }
+    if (req.params.sortype === "slugging") {
+        playerData = await PlayerStats.find({season: currentseason, atbats: {$gt: 0}})
+        playerData.sort((a, b) => (Math.round((b.basesReached/(b.atbats+1))*100)/100) - (Math.round((a.basesReached/(a.atbats+1))*100)/100))
+    }
+    if (req.params.sortype === "ops") {
+        playerData = await PlayerStats.find({season: currentseason, atbats: {$gt: 0}})
+        playerData.sort((a, b) => ((Math.round(((Math.round(((b.hitsgot+b.walksgot)/b.atbats)*100)/100)+(Math.round((b.basesReached/b.atbats)*100)/100))*100)/100) - (Math.round(((Math.round(((a.hitsgot+a.walksgot)/a.atbats)*100)/100)+(Math.round((a.basesReached/a.atbats)*100)/100))*100)/100)))
+    }
+    if (req.params.sortype === "era") {
+        playerData = await PlayerStats.find({season: currentseason, innings: {$gt: 0}})
+        playerData.sort((a, b) => (Math.round((9*a.earnedruns/(a.innings))*100)/100) - (Math.round((9*b.earnedruns/(b.innings))*100)/100))
+    }
+    if (req.params.sortype === "whip") {
+        playerData = await PlayerStats.find({season: currentseason, innings: {$gt: 0}})
+        playerData.sort((a, b) => (Math.round(((a.hitsallowed+a.walksissued)/(a.innings))*100)/100) - (Math.round(((b.hitsallowed+b.walksissued)/(b.innings))*100)/100))
+    }
+    if (req.params.sortype === "fans") {
+        playerData = await Player.find({'fans.0': {$exists: true}})
+        playerData.sort((a, b) => b.fans.length - a.fans.length)
+    }
+
+    if (playerData) {
+        res.send(JSON.stringify(playerData))
+    }
+})
+
 router.get('/players/:sortype/:name', async (req, res) => {
     let currentseason = currentActiveSeason // Current season here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
     let searchOptions = {}
-    if (req.params.name != null) {
+    if (req.params.name != null && req.query.name != '') {
         searchOptions.name = new RegExp(req.params.name, 'i')
     }
     let playerData = await Player.find(searchOptions)
@@ -59,7 +115,7 @@ router.get('/players/:sortype/:name', async (req, res) => {
         playerData.sort((a, b) => (Math.round(((a.hitsallowed+a.walksissued)/(a.innings))*100)/100) - (Math.round(((b.hitsallowed+b.walksissued)/(b.innings))*100)/100))
     }
     if (req.params.sortype === "fans") {
-        playerData = await Player.find({'fans.0': {$exists: true}})
+        playerData = await Player.find({name: searchOptions.name, 'fans.0': {$exists: true}})
         playerData.sort((a, b) => b.fans.length - a.fans.length)
     }
 

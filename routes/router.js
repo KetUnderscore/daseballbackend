@@ -12,7 +12,7 @@ router.get('/players/:sortype/:name', async (req, res) => {
     let currentseason = currentActiveSeason // Current season here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
     let searchOptions = {}
-    if (req.params.name != null && req.params.name != '') {
+    if (req.params.name != null) {
         searchOptions.name = new RegExp(req.params.name, 'i')
     }
     let playerData = await Player.find(searchOptions)
@@ -35,27 +35,27 @@ router.get('/players/:sortype/:name', async (req, res) => {
         playerData.sort((a, b) => (b.clooning+b.throwing+b.batman) - (a.clooning+a.throwing+a.batman))
     }
     if (req.params.sortype === "battingaverage") {
-            playerData = await PlayerStats.find({season: currentseason, atbats: {$gt: 0}})
+            playerData = await PlayerStats.find({name: searchOptions.name, season: currentseason, atbats: {$gt: 0}})
             playerData.sort((a, b) => (Math.round((b.hitsgot/(b.atbats+1))*100)/100) - (Math.round((a.hitsgot/(a.atbats+1))*100)/100))
     }
     if (req.params.sortype === "onbasepercentage") {
-            playerData = await PlayerStats.find({season: currentseason, atbats: {$gt: 0}})
+            playerData = await PlayerStats.find({name: searchOptions.name, season: currentseason, atbats: {$gt: 0}})
             playerData.sort((a, b) => (Math.round(((b.hitsgot+b.walksgot)/(b.atbats+1))*100)/100) - (Math.round(((a.hitsgot+a.walksgot)/(a.atbats+1))*100)/100))
     }
     if (req.params.sortype === "slugging") {
-        playerData = await PlayerStats.find({season: currentseason, atbats: {$gt: 0}})
+        playerData = await PlayerStats.find({name: searchOptions.name, season: currentseason, atbats: {$gt: 0}})
         playerData.sort((a, b) => (Math.round((b.basesReached/(b.atbats+1))*100)/100) - (Math.round((a.basesReached/(a.atbats+1))*100)/100))
     }
     if (req.params.sortype === "ops") {
-        playerData = await PlayerStats.find({season: currentseason, atbats: {$gt: 0}})
+        playerData = await PlayerStats.find({name: searchOptions.name, season: currentseason, atbats: {$gt: 0}})
         playerData.sort((a, b) => ((Math.round(((Math.round(((b.hitsgot+b.walksgot)/b.atbats)*100)/100)+(Math.round((b.basesReached/b.atbats)*100)/100))*100)/100) - (Math.round(((Math.round(((a.hitsgot+a.walksgot)/a.atbats)*100)/100)+(Math.round((a.basesReached/a.atbats)*100)/100))*100)/100)))
     }
     if (req.params.sortype === "era") {
-        playerData = await PlayerStats.find({season: currentseason, innings: {$gt: 0}})
+        playerData = await PlayerStats.find({name: searchOptions.name, season: currentseason, innings: {$gt: 0}})
         playerData.sort((a, b) => (Math.round((9*a.earnedruns/(a.innings))*100)/100) - (Math.round((9*b.earnedruns/(b.innings))*100)/100))
     }
     if (req.params.sortype === "whip") {
-        playerData = await PlayerStats.find({season: currentseason, innings: {$gt: 0}})
+        playerData = await PlayerStats.find({name: searchOptions.name, season: currentseason, innings: {$gt: 0}})
         playerData.sort((a, b) => (Math.round(((a.hitsallowed+a.walksissued)/(a.innings))*100)/100) - (Math.round(((b.hitsallowed+b.walksissued)/(b.innings))*100)/100))
     }
     if (req.params.sortype === "fans") {

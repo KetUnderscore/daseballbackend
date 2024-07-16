@@ -12,8 +12,8 @@ router.get('/players/:sortype/:name', async (req, res) => {
     let currentseason = currentActiveSeason // Current season here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
     let searchOptions = {}
-    if (req.query.name != null && req.query.name !== '') {
-        searchOptions.name = new RegExp(req.query.name, 'i')
+    if (req.params.name != null && req.params.name != '') {
+        searchOptions.name = new RegExp(req.params.name, 'i')
     }
     let playerData = await Player.find(searchOptions)
 

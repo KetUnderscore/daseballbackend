@@ -8,9 +8,15 @@ const Season = require('../models/Season')
 const { currentActiveSeason } = require('../config.json')
 
 // Player Related Routes
-router.get('/players/:sortype', async (req, res) => {
-    let playerData = await Player.find({})
+router.get('/players/:sortype/:name', async (req, res) => {
     let currentseason = currentActiveSeason // Current season here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    let searchOptions = {}
+    if (req.query.name != null && req.query.name !== '') {
+        searchOptions.name = new RegExp(req.query.name, 'i')
+    }
+    let playerData = await Player.find(searchOptions)
+
     if (req.params.sortype === 'total') {
         playerData.sort((a, b) => 
             (b.battery+b.assault+b.resistingArrest+b.praying+b.publicity+b.pope+b.hammer+b.stalin+b.sickle+b.clooning+b.throwing+b.batman) -

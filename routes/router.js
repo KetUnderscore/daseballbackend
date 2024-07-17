@@ -117,6 +117,7 @@ router.get('/players/:sortype/:name', async (req, res) => {
     if (req.params.sortype === "fans") {
         playerData = await Player.find({name: searchOptions.name, 'fans.0': {$exists: true}})
         playerData.sort((a, b) => b.fans.length - a.fans.length)
+        playerData = playerData.slice(0, 10)
     }
 
     if (playerData) {

@@ -1,3 +1,4 @@
 {
-    "currentActiveSeason": 4
+    "currentActiveSeason": 4,
+    "Access-Control-Allow-Origin": "*"
 }

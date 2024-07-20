@@ -178,7 +178,14 @@ router.get('/teams/', async (req, res) => {
     }
 })
 
-// Team Related Routes
+router.get('/teams/postseason', async (req, res) => {
+    let teamData = await Team.find({}).sort({gamesWon: -1, playoffGamesWon: -1}).exec()
+
+    if (teamData) {
+        res.send(teamData)
+    }
+})
+
 router.get('/team/:teamName', async (req, res) => {
     const teamData = await Team.find(req.params)
 

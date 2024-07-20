@@ -179,7 +179,7 @@ router.get('/teams/', async (req, res) => {
 })
 
 router.get('/teams/postseason', async (req, res) => {
-    let teamData = await Team.find({}).sort({gamesWon: -1, playoffGamesWon: -1}).exec()
+    let teamData = await Team.find({$limit : 4}).sort({gamesWon: -1, playoffGamesWon: -1}).exec()
 
     if (teamData) {
         res.send(teamData)

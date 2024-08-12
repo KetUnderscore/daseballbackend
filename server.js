@@ -10,13 +10,7 @@ const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
 
-const corsOptions = {
-    origin: '*',
-    credentials: true,
-    optionsSuccessStatus: 200
-}
-
-app.use(cors(corsOptions))
+app.use(cors({origin: '*'}));
 app.use('/', router)
 
 const dbOptions = {}

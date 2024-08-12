@@ -10,7 +10,20 @@ const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
 
-app.use(cors({origin: '*'}));
+const corsOptions = {
+    origin: '*',
+    credentials: true,
+    optionsSuccessStatus: 200
+}
+
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET');
+    
+    next();
+})
+
+app.use(cors(corsOptions))
 app.use('/', router)
 
 const dbOptions = {}

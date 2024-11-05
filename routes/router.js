@@ -46,6 +46,15 @@ router.get('/players/:sortype', async (req, res) => {
         playerData = await PlayerStats.find({season: currentseason, atbats: {$gt: 0}})
         playerData.sort((a, b) => ((Math.round(((Math.round(((b.hitsgot+b.walksgot)/b.atbats)*100)/100)+(Math.round((b.basesReached/b.atbats)*100)/100))*100)/100) - (Math.round(((Math.round(((a.hitsgot+a.walksgot)/a.atbats)*100)/100)+(Math.round((a.basesReached/a.atbats)*100)/100))*100)/100)))
     }
+    if (req.params.sortype === "opspluspull") {
+        let playerDataTemp = await PlayerStats.find({season: currentseason, atbats: {$gt: 0}})
+        playerDataTemp.sort((a, b) => ((Math.round(((Math.round(((b.hitsgot+b.walksgot)/b.atbats)*100)/100)+(Math.round((b.basesReached/b.atbats)*100)/100))*100)/100) - (Math.round(((Math.round(((a.hitsgot+a.walksgot)/a.atbats)*100)/100)+(Math.round((a.basesReached/a.atbats)*100)/100))*100)/100)))
+        playerData = []
+        for (let i = 0, i < playerDataTemp.length) {
+         let target = playerDataTemp[i] playerData.push({name:playerDataTemp[i].name, ops:
+(Math.round(((Math.round(((target.hitsgot+target.walksgot)/target.atbats)*100)/100)+(Math.round((target.basesReached/target.atbats)*100)/100))*100)/100)
+        }
+    }
     if (req.params.sortype === "era") {
         playerData = await PlayerStats.find({season: currentseason, innings: {$gt: 0}})
         playerData.sort((a, b) => (Math.round((9*a.earnedruns/(a.innings))*100)/100) - (Math.round((9*b.earnedruns/(b.innings))*100)/100))

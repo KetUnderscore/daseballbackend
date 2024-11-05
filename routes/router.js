@@ -46,6 +46,11 @@ router.get('/players/:sortype', async (req, res) => {
         playerData = await PlayerStats.find({season: currentseason, atbats: {$gt: 0}})
         playerData.sort((a, b) => ((Math.round(((Math.round(((b.hitsgot+b.walksgot)/b.atbats)*100)/100)+(Math.round((b.basesReached/b.atbats)*100)/100))*100)/100) - (Math.round(((Math.round(((a.hitsgot+a.walksgot)/a.atbats)*100)/100)+(Math.round((a.basesReached/a.atbats)*100)/100))*100)/100)))
     }
+
+    if (req.params.sortype === "ops+") {
+        playerData = await PlayerStats.find({season: currentseason, atbats: {$gt: 0}})
+        playerData.sort((a, b) => ((Math.round(((Math.round(((b.hitsgot+b.walksgot)/b.atbats)*100)/100)+(Math.round((b.basesReached/b.atbats)*100)/100))*100)/100) - (Math.round(((Math.round(((a.hitsgot+a.walksgot)/a.atbats)*100)/100)+(Math.round((a.basesReached/a.atbats)*100)/100))*100)/100)))
+    }
     
     if (req.params.sortype === "era") {
         playerData = await PlayerStats.find({season: currentseason, innings: {$gt: 0}})

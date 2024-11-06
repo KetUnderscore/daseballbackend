@@ -48,7 +48,14 @@ router.get('/players/:sortype', async (req, res) => {
         playerData.sort((a, b) => ((Math.round(((Math.round(((b.hitsgot+b.walksgot)/b.atbats)*100)/100)+(Math.round((b.basesReached/b.atbats)*100)/100))*100)/100) - (Math.round(((Math.round(((a.hitsgot+a.walksgot)/a.atbats)*100)/100)+(Math.round((a.basesReached/a.atbats)*100)/100))*100)/100)))
     }
 
-    
+    if (req.params.sortype === "opspull") {
+        playerDataTemp = await PlayerStats.find({season: currentseason, atbats: {$gt: 0}})
+        
+        for (let x = 0; x < playerDataTemp.length; x++)
+    {
+        playerData.push({name:playerDataTemp[x].name})
+    }
+}
     
     if (req.params.sortype === "era") {
         playerData = await PlayerStats.find({season: currentseason, innings: {$gt: 0}})

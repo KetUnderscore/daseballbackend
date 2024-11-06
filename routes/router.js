@@ -55,10 +55,12 @@ router.get('/players/:sortype', async (req, res) => {
         for (let x = 0; x < playerDataTemp.length; x++)
     {
         playerObp = (playerDataTemp[x].hitsgot+playerDataTemp[x].walksgot)/(playerDataTemp[x].atbats+playerDataTemp[x].walksgot)
+        playerSlug = playerDataTemp[x].bases reached/playerDataTemp[x].atbats
 
         playerData.push({
 name:playerDataTemp[x].name,
-obp:playerObp
+obp:playerObp,
+slg:playerSlug
         })
     }
 }

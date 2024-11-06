@@ -54,13 +54,14 @@ router.get('/players/:sortype', async (req, res) => {
 
         for (let x = 0; x < playerData.length; x++)
 {
-    playerDataTemp.push({
+    let thisGuy = {
 name:playerData[x].name,
 hits:playerData[x].hitsgot
-})
-        playerData = playerDataTemp
-
-    }
+}
+    playerDataTemp.push(thisGuy)
+}
+    playerData = playerDataTemp
+}
     
     if (req.params.sortype === "era") {
         playerData = await PlayerStats.find({season: currentseason, innings: {$gt: 0}})

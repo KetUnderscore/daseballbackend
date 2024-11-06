@@ -59,8 +59,6 @@ router.get('/players/:sortype', async (req, res) => {
 
         playerData.push({
 name:playerDataTemp[x].name,
-obp:playerObp,
-slg:playerSlug,
 ops:playerObp+playerSlug
         })
     }

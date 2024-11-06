@@ -51,18 +51,16 @@ router.get('/players/:sortype', async (req, res) => {
     if (req.params.sortype === "opspull") {
         playerData = []
         playerDataTemp = await PlayerStats.find({season: currentseason, atbats: {$gt: 0}})
-        
-        for (let x = 0; x < playerDataTemp.length; x++)
-    {
-        playerObp = (playerDataTemp[x].hitsgot+playerDataTemp[x].walksgot)/(playerDataTemp[x].atbats+playerDataTemp[x].walksgot)
-        playerSlug = playerDataTemp[x].basesReached/playerDataTemp[x].atbats
+        for (let x = 0; x < playerDataTemp.length; x++){
+            playerObp = (playerDataTemp[x].hitsgot+playerDataTemp[x].walksgot)/(playerDataTemp[x].atbats+playerDataTemp[x].walksgot)
+            playerSlug = playerDataTemp[x].basesReached/playerDataTemp[x].atbats
 
-        playerData.push({
-name:playerDataTemp[x].name,
-ops:playerObp+playerSlug
-        })
+            playerData.push({
+                name:playerDataTemp[x].name,
+                ops:playerObp+playerSlug
+            })
+        }
     }
-}
     
     if (req.params.sortype === "era") {
         playerData = await PlayerStats.find({season: currentseason, innings: {$gt: 0}})
@@ -177,6 +175,24 @@ router.get('/playerData/:name', async (req, res) => {
 
 router.get('/playerData/:name/:season', async (req, res) => {
     const playerData = await PlayerStats.find(req.params)
+
+    if (playerData) {
+        res.send(JSON.stringify(playerData))
+    }
+})
+
+router.get('/playerDataOps/:season', async (req, res) => {
+    playerData = []
+    playerDataTemp = await PlayerStats.find({season: req.params.season, atbats: {$gt: 0}})
+    for (let x = 0; x < playerDataTemp.length; x++){
+        playerObp = (playerDataTemp[x].hitsgot+playerDataTemp[x].walksgot)/(playerDataTemp[x].atbats+playerDataTemp[x].walksgot)
+        playerSlug = playerDataTemp[x].basesReached/playerDataTemp[x].atbats
+
+        playerData.push({
+            name:playerDataTemp[x].name,
+            ops:playerObp+playerSlug
+        })
+    }
 
     if (playerData) {
         res.send(JSON.stringify(playerData))

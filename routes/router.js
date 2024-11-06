@@ -61,7 +61,7 @@ router.get('/players/:sortype', async (req, res) => {
     if (req.params.sortype === "fans") {
         playerData = await Player.find({'fans.0': {$exists: true}})
         playerData.sort((a, b) => b.fans.length - a.fans.length)
-    })
+    }
 
     if (playerData) {
         res.send(JSON.stringify(playerData))

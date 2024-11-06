@@ -49,7 +49,7 @@ router.get('/players/:sortype', async (req, res) => {
     }
 
     if (req.params.sortype === "opspull") {
-        player data = []
+        playerData = []
         playerDataTemp = await PlayerStats.find({season: currentseason, atbats: {$gt: 0}})
         
         for (let x = 0; x < playerDataTemp.length; x++)

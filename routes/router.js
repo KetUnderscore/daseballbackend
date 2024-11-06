@@ -190,7 +190,26 @@ router.get('/playerDataOps/:season', async (req, res) => {
 
         playerData.push({
             name:playerDataTemp[x].name,
+            atBats:playerDataTemp[x].atbats,
             ops:playerObp+playerSlug
+        })
+    }
+
+    if (playerData) {
+        res.send(JSON.stringify(playerData))
+    }
+})
+
+router.get('/playerDataEra/:season', async (req, res) => {
+    playerData = []
+    playerDataTemp = await PlayerStats.find({season: req.params.season, innings: {$gt: 0}})
+    for (let x = 0; x < playerDataTemp.length; x++){
+        playerEra = ((Math.round((9*playerDataTemp[x].earnedruns/(playerDataTemp[x].innings))*100)/100))
+
+        playerData.push({
+            name:playerDataTemp[x].name,
+            innings:playerDataTemp[x].innings,
+            era:playerEra
         })
     }
 

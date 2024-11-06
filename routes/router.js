@@ -77,7 +77,7 @@ ops:(Math.round(((Math.round
     if (req.params.sortype === "fans") {
         playerData = await Player.find({'fans.0': {$exists: true}})
         playerData.sort((a, b) => b.fans.length - a.fans.length)
-    }
+    })
 
     if (playerData) {
         res.send(JSON.stringify(playerData))

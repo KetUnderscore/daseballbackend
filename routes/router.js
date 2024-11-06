@@ -49,15 +49,12 @@ router.get('/players/:sortype', async (req, res) => {
     }
 
     if (req.params.sortype === "opspull") {
-        playerData = await PlayerStats.find({season: currentseason, atbats: {$gt: 0}})
+        playerDataTemp = await PlayerStats.find({season: currentseason, atbats: {$gt: 0}})
         
-        for (let x = 0; x < playerData.length; x++) {
-    let thisGuy = {name:playerData[x].name,
-hitsGot:playerData[x].hitsgot}
-    playerDataTemp.push(thisGuy)
+        for (let x = 0; x < playerDataTemp.length; x++)
+    {
+        playerData.push({playerDataTemp[x].name})
     }
-
-    playerData = playerDataTemp
 }
     
     if (req.params.sortype === "era") {

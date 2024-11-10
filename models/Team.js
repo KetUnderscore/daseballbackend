@@ -85,6 +85,22 @@ const teamDataSchema = new Schema({
         type: Number,
         default: 0,
     },
+    maxVibe: { // Increases by 5 every season win
+        type: Number,
+        default: 25,
+    },
+    minVibe: { // Decreases by 5 every season win
+        type: Number,
+        default: -25,
+    },
+    curVibe: { // Starts at 0 each season
+        type: Number,
+        default: 0,
+    },
+    spiritFund: { // Starts at 0, maxes at 10k
+        type: Number,
+        default: 0,
+    },
 });
 
 module.exports = model('TeamData', teamDataSchema, "teams");

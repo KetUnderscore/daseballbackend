@@ -21,6 +21,11 @@ const playerDataSchema = new Schema({
         required: true,
         default: "0",
     },
+    teamEmoji: {
+        type: String,
+        required: true,
+        default: " ",
+    },
     // Player Stats
         // Batting
     battery: {
@@ -103,6 +108,54 @@ const playerDataSchema = new Schema({
         type: Array,
         required: true,
         default: []
+    },
+    birthday: {
+        name: 'Birthday',
+        type: Number,
+        required: true,
+        default: 0
+    },
+    favNum: {
+        name: 'Favorite Number',
+        type: Number,
+        required: true,
+        default: 0
+    },
+    favSes: {
+        name: 'Favorite Season',
+        type: Number,
+        required: true,
+        default: 0
+    },
+    favPos: {
+        name: 'Favorite Lineup Position',
+        type: Number,
+        required: true,
+        default: 0
+    },
+    starAlignment: {
+        name: 'Star Color',
+        type: Number,
+        required: true,
+        default: 0
+    },
+    favHol: {
+        name: 'Favorite Holiday',
+        type: String,
+        required: true,
+        default: "None"
+    },
+    favSoup: {
+        name: 'Favorite Soup',
+        type: String,
+        required: true,
+        default: "None"
+    },
+    eyeCount: {
+        name: 'Eye Count',
+        type: Number,
+        required: true,
+        default: 2
     }
 });
 

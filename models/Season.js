@@ -55,6 +55,10 @@ const seasonDataSchema = new Schema({
         type: Array,
         default: [],
     },
+    seasonEvents: { // Seasons events
+        type: Array,
+        default: [],
+    },
 });
 
 module.exports = model('SeasonData', seasonDataSchema, "season");

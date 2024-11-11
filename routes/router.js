@@ -294,8 +294,18 @@ router.get('/games/:season/:day', async (req, res) => {
 })
 
 // Season Related Routes
-router.get('/season/:seasonnum/', async (req, res) => {
-    let seasonnum = 1
+router.get('/season/', async (req, res) => {
+    let seasonnum = 4.2
+
+    const gameData = await Season.find({seasonNumber: seasonnum}).exec()
+
+    if (gameData) {
+        res.send(gameData)
+    }
+})
+
+router.get('/season/:seasonnum', async (req, res) => {
+    let seasonnum = 4.2
     if (req.params.seasonnum) {
         seasonnum = req.params.seasonnum
     }

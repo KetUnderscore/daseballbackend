@@ -16,12 +16,12 @@ const corsOptions = {
     optionsSuccessStatus: 200
 }
 
-app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET');
-    
-    next();
-})
+app.use(
+    cors({
+      origin: "*", // restrict calls to those this address
+      methods: "GET" // only allow GET requests
+    })
+  );
 
 app.use(cors(corsOptions))
 app.use('/', router)

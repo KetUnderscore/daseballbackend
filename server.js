@@ -10,20 +10,7 @@ const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
 
-const corsOptions = {
-    origin: '*',
-    credentials: true,
-    optionsSuccessStatus: 200
-}
-
-app.use(
-    cors({
-      origin: "*", // restrict calls to those this address
-      methods: "GET" // only allow GET requests
-    })
-  );
-
-app.use(cors(corsOptions))
+app.use(cors())
 app.use('/', router)
 
 const dbOptions = {}

@@ -274,6 +274,7 @@ router.get('/seasonSchedule/:seasonNumber', async (req, res) => {
     scheduleData.push(dayThree)
 
     if (scheduleData) {
+        res.set('Access-Control-Allow-Origin', '*');
         res.send(scheduleData)
     }
 })

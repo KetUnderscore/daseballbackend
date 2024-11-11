@@ -275,7 +275,7 @@ router.get('/seasonSchedule/:seasonNumber', async (req, res) => {
         scheduleDays.push({day: seasonData.schedule[x-1], weathers: seasonData.weather[x-1]})
     }
 
-    if (seasonData) {
+    if (scheduleDays) {
         res.send(JSON.stringify(scheduleDays))
     }
 })

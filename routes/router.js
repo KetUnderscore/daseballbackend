@@ -8,6 +8,8 @@ const Game = require('../models/Game')
 const Season = require('../models/Season')
 const { currentActiveSeason } = require('../config.json')
 
+const app = express()
+
 app.use(cors())
 
 app.use((req, res, next) => {

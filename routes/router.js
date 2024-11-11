@@ -293,4 +293,18 @@ router.get('/games/:season/:day', async (req, res) => {
     }
 })
 
+// Season Related Routes
+router.get('/season/:seasonnum/', async (req, res) => {
+    let seasonnum = 1
+    if (req.params.seasonnum) {
+        seasonnum = req.params.seasonnum
+    }
+
+    const gameData = await Season.find({seasonNumber: seasonnum}).exec()
+
+    if (gameData) {
+        res.send(gameData)
+    }
+})
+
 module.exports = router

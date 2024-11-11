@@ -269,7 +269,6 @@ router.get('/season/:seasonNumber', async (req, res) => {
 router.get('/seasonSchedule/:seasonNumber', async (req, res) => {
     const seasonData = await Season.find(req.params).exec()
 
-    /*
     let dayOne = seasonData.schedule[seasonData.seasonDay]
     let dayTwo = seasonData.schedule[seasonData.seasonDay+1]
     let dayThree = seasonData.schedule[seasonData.seasonDay+2]
@@ -278,11 +277,10 @@ router.get('/seasonSchedule/:seasonNumber', async (req, res) => {
     dayTwo = seasonData.teamLayout[dayTwo]
     dayThree = seasonData.teamLayout[dayThree]
 
-    let scheduleData = [dayOne, dayTwo, dayThree]
-    */
+    let scheduleData = {first: dayOne, second: dayTwo, third: dayThree}
 
-    if (seasonData) {
-        res.send(seasonData)
+    if (scheduleData) {
+        res.send(scheduleData)
     }
 })
 

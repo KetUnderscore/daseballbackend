@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const router = express.Router()
 const Player = require('../models/Player')
 const PlayerStats = require('../models/PlayerStats')
@@ -6,6 +7,13 @@ const Team = require('../models/Team')
 const Game = require('../models/Game')
 const Season = require('../models/Season')
 const { currentActiveSeason } = require('../config.json')
+
+app.use(cors())
+
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    next();
+})
 
 // Player Related Routesrouter.get('/players/:sortype/:name', async (req, res) => {
 router.get('/players/:sortype', async (req, res) => {

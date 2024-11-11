@@ -17,7 +17,7 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use('/', router)
+app.use('/', cors(), router)
 
 const dbOptions = {}
 mongoose.connect(process.env.DB_URI, dbOptions)

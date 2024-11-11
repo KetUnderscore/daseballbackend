@@ -274,9 +274,9 @@ router.get('/seasonSchedule/:seasonNumber', async (req, res) => {
     let dayTwo = seasonData.schedule[seasonData.seasonDay+1]
     let dayThree = seasonData.schedule[seasonData.seasonDay+2]
 
-    dayOne = [dayOne][seasonData.teamLayout]
-    dayTwo = [dayTwo][seasonData.teamLayout]
-    dayThree = [dayThree][seasonData.teamLayout]
+    dayOne = [seasonData.teamLayout][dayOne]
+    dayTwo = [seasonData.teamLayout][dayTwo]
+    dayThree = [seasonData.teamLayout][dayThree]
 
     let scheduleData = []
     scheduleData.push(dayOne)
@@ -284,7 +284,6 @@ router.get('/seasonSchedule/:seasonNumber', async (req, res) => {
     scheduleData.push(dayThree)
 
     if (scheduleData) {
-        res.set('Access-Control-Allow-Origin', '*');
         res.send(scheduleData)
     }
 })

@@ -256,6 +256,24 @@ router.get('/season/:seasonNumber', async (req, res) => {
     }
 })
 
+// Season Related Routes
+router.get('/seasonSchedule/:seasonNumber', async (req, res) => {
+    const seasonData = await Season.find(req.params).exec()
+
+    let dayOne = seasonData.schedule[seasonData.seasonDay][seasonData.teamLayout]
+    let dayTwo = seasonData.schedule[seasonData.seasonDay+1][seasonData.teamLayout]
+    let dayThree = seasonData.schedule[seasonData.seasonDay+2][seasonData.teamLayout]
+
+    let scheduleData = []
+    scheduleData.push(dayOne)
+    scheduleData.push(dayTwo)
+    scheduleData.push(dayThree)
+
+    if (scheduleData) {
+        res.send(scheduleData)
+    }
+})
+
 // Game Related Routes
 router.get('/games/', async (req, res) => {
     const gameData = await Game.find({}).exec()
@@ -287,30 +305,6 @@ router.get('/games/:season/:day', async (req, res) => {
         day = req.params.day
     }
     const gameData = await Game.find({season: season, gameDay: day}).exec()
-
-    if (gameData) {
-        res.send(gameData)
-    }
-})
-
-// Season Related Routes
-router.get('/season/', async (req, res) => {
-    let seasonnum = 4.2
-
-    const gameData = await Season.find({seasonNumber: seasonnum}).exec()
-
-    if (gameData) {
-        res.send(gameData)
-    }
-})
-
-router.get('/season/:seasonnum', async (req, res) => {
-    let seasonnum = 4.2
-    if (req.params.seasonnum) {
-        seasonnum = req.params.seasonnum
-    }
-
-    const gameData = await Season.find({seasonNumber: seasonnum}).exec()
 
     if (gameData) {
         res.send(gameData)

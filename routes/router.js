@@ -282,8 +282,8 @@ router.get('/seasonSchedule/:seasonNumber', async (req, res) => {
 
     let scheduleData = [dayOne, dayTwo, dayThree]
 
-    if (scheduleData) {
-        res.send(scheduleData)
+    if (seasonData) {
+        res.send(seasonData)
     }
 })
 

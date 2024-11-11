@@ -274,9 +274,9 @@ router.get('/seasonSchedule/:seasonNumber', async (req, res) => {
     let dayTwo = seasonData.schedule[seasonData.seasonDay+1]
     let dayThree = seasonData.schedule[seasonData.seasonDay+2]
 
-    dayOne = [seasonData.teamLayout][dayOne]
-    dayTwo = [seasonData.teamLayout][dayTwo]
-    dayThree = [seasonData.teamLayout][dayThree]
+    dayOne = seasonData.teamLayout[dayOne]
+    dayTwo = seasonData.teamLayout[dayTwo]
+    dayThree = seasonData.teamLayout[dayThree]
 
     let scheduleData = []
     scheduleData.push(dayOne)

@@ -266,21 +266,20 @@ router.get('/season/:seasonNumber', async (req, res) => {
     }
 })
 
-// Season Related Routes
 router.get('/seasonSchedule/:seasonNumber', async (req, res) => {
     const seasonData = await Season.find(req.params).exec()
 
+    /*
     let dayOne = seasonData.schedule[seasonData.seasonDay]
     let dayTwo = seasonData.schedule[seasonData.seasonDay+1]
     let dayThree = seasonData.schedule[seasonData.seasonDay+2]
 
-    /*
     dayOne = seasonData.teamLayout[dayOne]
     dayTwo = seasonData.teamLayout[dayTwo]
     dayThree = seasonData.teamLayout[dayThree]
-    */
 
     let scheduleData = [dayOne, dayTwo, dayThree]
+    */
 
     if (seasonData) {
         res.send(seasonData)

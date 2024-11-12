@@ -267,19 +267,18 @@ router.get('/season/:seasonNumber', async (req, res) => {
 })
 
 router.get('/seasonSchedule/:seasonNumber', async (req, res) => {
+    const delay = millis => new Promise((resolve, reject) => {
+        setTimeout(_ => resolve(), millis)
+    });
 
-    const seasonData = await Season.find(req.params).exec()
+    let seasonData = await Season.find(req.params).exec()
 
-    let teamsData = []
-    for (x = 0; x < seasonData.teamLayout.length(); x++) {
-        let team = await Team.find({teamName: seasonData.teamLayout[x]})
-        teamsData.push(team)
-    }
+    let teamsData = await getTeams(seasonData)
 
-    seasonData.scheduleTeamInfo = teamsData
+    seasonData[0].scheduleTeamInfo = teamsData
 
     if (seasonData) {
-        res.send(JSON.stringify(seasonData))
+        res.send(seasonData)
     }
 })
 
@@ -321,3 +320,12 @@ router.get('/games/:season/:day', async (req, res) => {
 })
 
 module.exports = router
+
+async function getTeams(seasonData) {
+    teamsData = []
+    for (x = 0; x < seasonData[0].teamLayout.length; x++) {
+        let team = await Team.find({teamName: seasonData[0].teamLayout[x]})
+        teamsData.push(team)
+    }
+    return teamsData;
+}

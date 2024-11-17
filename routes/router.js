@@ -275,7 +275,9 @@ router.get('/seasonSchedule/:seasonNumber', async (req, res) => {
 
     let teamsData = await getTeams(seasonData)
 
-    seasonData[0].scheduleTeamInfo = teamsData
+    let schedInfo = await getSchedule(teamsData, seasonData)
+
+    seasonData[0].scheduleTeamInfo = schedInfo
 
     if (seasonData) {
         res.send(seasonData)
@@ -322,10 +324,23 @@ router.get('/games/:season/:day', async (req, res) => {
 module.exports = router
 
 async function getTeams(seasonData) {
-    teamsData = []
+    let teamersData = []
     for (x = 0; x < seasonData[0].teamLayout.length; x++) {
         let team = await Team.find({teamName: seasonData[0].teamLayout[x]})
-        teamsData.push(team)
+        teamersData.push(team)
     }
-    return teamsData;
+    return teamersData;
+}
+
+async function getTeams(teamsData, seasonData) {
+    let schedInfo = []
+    for (x = seasonData[0].seasonDay-1; x < seasonData[0].seasonDay+2; x++) {
+        let schedDay
+        for (i = 0; i < 6; i++){
+            let schedItem = seasonData[0].teamLayout[seasonData[0].schedule[i]]
+            schedDay.push(schedItem)
+        }
+        schedInfo.push(schedDay)
+    }
+    return schedInfo;
 }

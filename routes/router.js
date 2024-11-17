@@ -278,10 +278,8 @@ router.get('/seasonSchedule/:seasonNumber', async (req, res) => {
         .then(result => {
             teamsData = result;
         })
-    console.log(teamsData)
 
     let schedInfo = await getSchedule(teamsData, seasonData)
-    console.log(schedInfo)
 
     seasonData[0].scheduleTeamInfo = schedInfo
 
@@ -340,15 +338,27 @@ async function getTeams(seasonData) {
 
 async function getSchedule(teamsData, seasonDatas) {
     let schedInfo = []
-    for (x = seasonDatas[0].seasonDay-1; x < seasonDatas[0].seasonDay+2; x++) {
-        let schedDay = []
-        for (i = 0; i < 12; i++){
-            let schedItem = teamsData[seasonDatas[0].schedule[x][i]]
-            let pitcher = await Player.findById({_id: schedItem.pitchingRotation[x%3]})
-            schedItem.players = pitcher
-            schedDay.push(schedItem)
-        }
+    for (j = seasonDatas[0].seasonDay-1; j < seasonDatas[0].seasonDay+2; j++) {
+        let schedDay = await getDay(j, teamsData, seasonDatas)
         schedInfo.push(schedDay)
     }
+    console.log(schedInfo[0][0].players)
+    console.log(schedInfo[0][1].players)
+    console.log(schedInfo[1][0].players)
+    console.log(schedInfo[1][1].players)
+    console.log(schedInfo[2][0].players)
+    console.log(schedInfo[2][1].players)
     return schedInfo;
+}
+
+async function getDay(j, teamsData, seasonDatas) {
+    let pointer = j
+    let schedDay = []
+    for (i = 0; i < 12; i++){
+        let schedItem = JSON.parse(JSON.stringify(teamsData[seasonDatas[0].schedule[pointer][i]]))
+        let pitcher = await Player.findById({_id: schedItem.pitchingRotation[pointer%3]})
+        schedItem.players = JSON.parse(JSON.stringify(pitcher))
+        schedDay.push(schedItem)
+    }
+    return schedDay
 }

@@ -343,8 +343,9 @@ async function getSchedule(teamsData, seasonDatas) {
     for (x = seasonDatas[0].seasonDay-1; x < seasonDatas[0].seasonDay+2; x++) {
         let schedDay = []
         for (i = 0; i < 12; i++){
-            console.log(seasonDatas[0].schedule[x][i])
             let schedItem = teamsData[seasonDatas[0].schedule[x][i]]
+            let pitcher = await Player.findById({_id: schedItem.pitchingRotation[Math.round(x/3)]})
+            schedItem.players = pitcher
             schedDay.push(schedItem)
         }
         schedInfo.push(schedDay)

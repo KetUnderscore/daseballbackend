@@ -329,9 +329,16 @@ module.exports = router
 
 async function getTeams(seasonData) {
     let teamersData = []
-    for (x = 0; x < seasonData[0].teamLayout.length; x++) {
-        let team = await Team.find({teamName: seasonData[0].teamLayout[x]})
-        teamersData.push(team[0])
+    if (seasonData[0].seasonDay >= 46) {
+        for (x = 0; x < seasonData[0].playoffTeams.length; x++) {
+            let team = await Team.find({teamName: seasonData[0].playoffTeams[x]})
+            teamersData.push(team[0])
+        }
+    } else {
+        for (x = 0; x < seasonData[0].teamLayout.length; x++) {
+            let team = await Team.find({teamName: seasonData[0].teamLayout[x]})
+            teamersData.push(team[0])
+        }
     }
     return teamersData;
 }
@@ -342,17 +349,34 @@ async function getSchedule(teamsData, seasonDatas) {
         let schedDay = await getDay(j, teamsData, seasonDatas)
         schedInfo.push(schedDay)
     }
+    if (seasonDatas[0].seasonDay >= 46) {
+        for (j = seasonDatas[0].seasonDay-1; j < 50; j++) {
+            let schedDay = await getDay(j-45, teamsData, seasonDatas)
+            schedInfo.push(schedDay)
+        }
+    }
     return schedInfo;
 }
 
 async function getDay(j, teamsData, seasonDatas) {
     let pointer = j
     let schedDay = []
-    for (i = 0; i < 12; i++){
-        let schedItem = JSON.parse(JSON.stringify(teamsData[seasonDatas[0].schedule[pointer][i]]))
-        let pitcher = await Player.findById({_id: schedItem.pitchingRotation[pointer%3]})
-        schedItem.players = JSON.parse(JSON.stringify(pitcher))
-        schedDay.push(schedItem)
+    let teamCount = 12
+    if (seasonDatas[0].seasonDay >= 46) {
+        teamCount = 4
+        for (i = 0; i < teamCount; i++){
+            let schedItem = JSON.parse(JSON.stringify(teamsData[seasonDatas[0].postSeasonSchedule[pointer][i]]))
+            let pitcher = await Player.findById({_id: schedItem.pitchingRotation[pointer%schedItem.pitchingRotation.length]})
+            schedItem.players = JSON.parse(JSON.stringify(pitcher))
+            schedDay.push(schedItem)
+        }
+    } else {
+        for (i = 0; i < teamCount; i++){
+            let schedItem = JSON.parse(JSON.stringify(teamsData[seasonDatas[0].schedule[pointer][i]]))
+            let pitcher = await Player.findById({_id: schedItem.pitchingRotation[pointer%schedItem.pitchingRotation.length]})
+            schedItem.players = JSON.parse(JSON.stringify(pitcher))
+            schedDay.push(schedItem)
+        }
     }
     return schedDay
 }

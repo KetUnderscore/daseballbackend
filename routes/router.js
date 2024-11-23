@@ -364,7 +364,7 @@ async function getDay(j, teamsData, seasonDatas) {
     let teamCount = 12
     if (seasonDatas[0].seasonDay >= 46) {
         teamCount = 4
-        if (seasonData[0].postSeasonWeather[seasonData[0].seasonDay-46].length === 1) {teamCount = 2}
+        if (seasonDatas[0].postSeasonWeather[seasonDatas[0].seasonDay-46].length === 1) {teamCount = 2}
         for (i = 0; i < teamCount; i++){
             let schedItem = JSON.parse(JSON.stringify(teamsData[seasonDatas[0].postSeasonSchedule[pointer][i]]))
             let pitcher = await Player.findById({_id: schedItem.pitchingRotation[pointer%schedItem.pitchingRotation.length]})

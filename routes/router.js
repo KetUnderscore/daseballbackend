@@ -342,12 +342,6 @@ async function getSchedule(teamsData, seasonDatas) {
         let schedDay = await getDay(j, teamsData, seasonDatas)
         schedInfo.push(schedDay)
     }
-    console.log(schedInfo[0][0].players)
-    console.log(schedInfo[0][1].players)
-    console.log(schedInfo[1][0].players)
-    console.log(schedInfo[1][1].players)
-    console.log(schedInfo[2][0].players)
-    console.log(schedInfo[2][1].players)
     return schedInfo;
 }
 

@@ -26,7 +26,7 @@ router.post('/signup/:un/:pwd', async (req, res) => {
     userData = await User.find({username: req.params.un, password: req.params.pwd})
 
     if (userData) {
-        res.send(JSON.stringify(playerData))
+        res.send(JSON.stringify(userData))
     }
 })
 router.post('/signin', signin)

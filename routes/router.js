@@ -1,12 +1,14 @@
 const express = require('express')
 const cors = require('cors')
 const router = express.Router()
+const User = require('../models/SiteUser')
 const Player = require('../models/Player')
 const PlayerStats = require('../models/PlayerStats')
 const Team = require('../models/Team')
 const Game = require('../models/Game')
 const Season = require('../models/Season')
 const { currentActiveSeason } = require('../config.json')
+const { signup, signin } = require('../controllers/user')
 
 const app = express()
 
@@ -17,7 +19,19 @@ app.use((req, res, next) => {
     next();
 })
 
-// Player Related Routesrouter.get('/players/:sortype/:name', async (req, res) => {
+// User Related Routes      ----------------------------------------------------------------------------------------
+router.post('/signup/:un/:pwd', async (req, res) => {
+    let userData = new User({username: req.params.un, password: req.params.un})
+    await userData.save()
+    userData = await User.find({username: req.params.un, password: req.params.un})
+
+    if (userData) {
+        res.send(JSON.stringify(playerData))
+    }
+})
+router.post('/signin', signin)
+
+// Player Related Routes    ----------------------------------------------------------------------------------------
 router.get('/players/:sortype', async (req, res) => {
     let currentseason = currentActiveSeason // Current season here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
@@ -228,7 +242,7 @@ router.get('/playerDataEra/:season', async (req, res) => {
     }
 })
 
-// Team Related Routes
+// Team Related Routes ----------------------------------------------------------------------------------------
 router.get('/teams/', async (req, res) => {
     let teamData1 = await Team.find({division: "Old School"}).sort({gamesWon: -1}).exec()
     let teamData2 = await Team.find({division: "New School"}).sort({gamesWon: -1}).exec()
@@ -257,7 +271,7 @@ router.get('/team/:teamName', async (req, res) => {
     }
 })
 
-// Season Related Routes
+// Season Related Routes ----------------------------------------------------------------------------------------
 router.get('/season/:seasonNumber', async (req, res) => {
     const seasonData = await Season.find(req.params).exec()
 
@@ -288,7 +302,7 @@ router.get('/seasonSchedule/:seasonNumber', async (req, res) => {
     }
 })
 
-// Game Related Routes
+// Game Related Routes ----------------------------------------------------------------------------------------
 router.get('/games/', async (req, res) => {
     const gameData = await Game.find({}).exec()
 

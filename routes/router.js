@@ -21,9 +21,9 @@ app.use((req, res, next) => {
 
 // User Related Routes      ----------------------------------------------------------------------------------------
 router.post('/signup/:un/:pwd', async (req, res) => {
-    let userData = new User({username: req.params.un, password: req.params.un})
+    let userData = new User({username: req.params.un, password: req.params.pwd})
     await userData.save()
-    userData = await User.find({username: req.params.un, password: req.params.un})
+    userData = await User.find({username: req.params.un, password: req.params.pwd})
 
     if (userData) {
         res.send(JSON.stringify(playerData))

@@ -3,13 +3,13 @@ const User = require('../models/SiteUser')
 // User Related Routes here ----------------------------------------------------------------------------------------
 exports.signup = async(req, res, next) => {
 
-    const {email} = req.body;
-    const userExists = await User.findOne({email})
+    const {username} = req.body;
+    const userExists = await User.findOne({username})
 
     if (userExists) {
         return res.status(400).json({
             sucess: false,
-            message: "Email already exists."
+            message: "User already exists."
         })
     }
 

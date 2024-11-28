@@ -8,7 +8,7 @@ const Team = require('../models/Team')
 const Game = require('../models/Game')
 const Season = require('../models/Season')
 const { currentActiveSeason } = require('../config.json')
-const { signup, signin } = require('../controllers/user')
+// const { signup, signin } = require('../controllers/user')
 
 const app = express()
 

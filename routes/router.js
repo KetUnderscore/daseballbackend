@@ -48,6 +48,7 @@ router.post('/signin/:un/:pwd', async (req, res) => {
             message: "Password incorrect."
         })
     }
+    console.log(userExists)
 
     if (userExists) {
         res.send(JSON.stringify(userExists))

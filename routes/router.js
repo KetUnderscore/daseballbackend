@@ -21,6 +21,15 @@ app.use((req, res, next) => {
 
 // User Related Routes      ----------------------------------------------------------------------------------------
 router.post('/signup/:un/:pwd', async (req, res) => {
+    const userExists = await User.findOne({username: req.params.un})
+
+    if (userExists) {
+        return res.status(409).json({
+            sucess: false,
+            message: "Username already exists."
+        })
+    }
+
     let userData = new User({username: req.params.un, password: req.params.pwd})
     await userData.save()
     userData = await User.find({username: req.params.un, password: req.params.pwd})

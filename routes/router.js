@@ -50,9 +50,7 @@ router.post('/signin/:un/:pwd', async (req, res) => {
     }
     console.log(userExists)
 
-    if (userExists) {
-        res.send(JSON.stringify(userExists))
-    }
+    res.send(JSON.stringify(userExists))
 })
 
 // Player Related Routes    ----------------------------------------------------------------------------------------

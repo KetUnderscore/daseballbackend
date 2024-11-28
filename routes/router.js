@@ -38,7 +38,23 @@ router.post('/signup/:un/:pwd', async (req, res) => {
         res.send(JSON.stringify(userData))
     }
 })
-router.post('/signin', signin)
+
+router.post('/signin/:un/:pwd', async (req, res) => {
+    const userExists = await User.findOne({username: req.params.un})
+
+    if (userExists && userExists.password != req.params.pwd) {
+        return res.status(409).json({
+            sucess: false,
+            message: "Password incorrect."
+        })
+    }
+
+    let userData = await User.find({username: req.params.un, password: req.params.pwd})
+
+    if (userData) {
+        res.send(JSON.stringify(userData))
+    }
+})
 
 // Player Related Routes    ----------------------------------------------------------------------------------------
 router.get('/players/:sortype', async (req, res) => {

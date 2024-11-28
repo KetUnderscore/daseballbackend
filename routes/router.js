@@ -8,6 +8,7 @@ const PlayerStats = require('../models/PlayerStats')
 const Team = require('../models/Team')
 const Game = require('../models/Game')
 const Season = require('../models/Season')
+const Vote = require('../models/VoteObject')
 const { currentActiveSeason } = require('../config.json')
 // const { signup, signin } = require('../controllers/user')
 
@@ -382,6 +383,23 @@ router.get('/games/:season/:day', async (req, res) => {
 
     if (gameData) {
         res.send(gameData)
+    }
+})
+
+// Vote Related Routes ----------------------------------------------------------------------------------------
+router.get('/votes/', async (req, res) => {
+    let votes = await Vote.find()
+
+    if (votes) {
+        res.send(votes)
+    }
+})
+
+router.get('/votes/:type', async (req, res) => {
+    let votes = await Vote.find({voteType: req.params.type})
+
+    if (votes) {
+        res.send(votes)
     }
 })
 

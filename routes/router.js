@@ -368,7 +368,7 @@ async function getTeams(seasonData) {
 
 async function getSchedule(teamsData, seasonDatas) {
     let schedInfo = []
-    for (j = seasonDatas[0].seasonDay-1; j < 45; j++) {
+    for (j = seasonDatas[0].seasonDay-1; j < Math.min(seasonDatas[0].seasonDay+5, 45); j++) {
         let schedDay = await getDay(j, teamsData, seasonDatas)
         schedInfo.push(schedDay)
     }

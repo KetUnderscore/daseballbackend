@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const router = express.Router()
+const path = require('path')
 const User = require('../models/SiteUser')
 const Player = require('../models/Player')
 const PlayerStats = require('../models/PlayerStats')
@@ -17,6 +18,11 @@ app.use(cors())
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     next();
+})
+
+// Open Page    ----------------------------------------------------------------------------------------
+router.get('/', async (req, res) => {
+    res.sendFile(path.join(__dirname, '../views', 'index.html'))
 })
 
 // User Related Routes      ----------------------------------------------------------------------------------------
@@ -50,10 +56,20 @@ router.post('/signin/:un/:pwd', async (req, res) => {
     }
     console.log(userExists)
 
-    res.send(JSON.stringify(userExists))
+    if (userExists) {
+        res.send(JSON.stringify(userExists))
+    }
 })
 
 // Player Related Routes    ----------------------------------------------------------------------------------------
+router.get('/players', async (req, res) => {
+    let playerData = await Player.find({})
+
+    if (playerData) {
+        res.send(JSON.stringify(playerData))
+    }
+})
+
 router.get('/players/:sortype', async (req, res) => {
     let currentseason = currentActiveSeason // Current season here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
@@ -294,6 +310,14 @@ router.get('/team/:teamName', async (req, res) => {
 })
 
 // Season Related Routes ----------------------------------------------------------------------------------------
+router.get('/season', async (req, res) => {
+    const seasonData = await Season.find({ seasonNumber: currentActiveSeason }).exec()
+
+    if (seasonData) {
+        res.send(seasonData)
+    }
+})
+
 router.get('/season/:seasonNumber', async (req, res) => {
     const seasonData = await Season.find(req.params).exec()
 

@@ -49,10 +49,8 @@ router.post('/signin/:un/:pwd', async (req, res) => {
         })
     }
 
-    let userData = await User.find({username: req.params.un, password: req.params.pwd})
-
-    if (userData) {
-        res.send(JSON.stringify(userData))
+    if (userExists) {
+        res.send(JSON.stringify(userExists))
     }
 })
 

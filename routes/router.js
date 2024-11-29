@@ -5,6 +5,7 @@ const path = require('path')
 const User = require('../models/SiteUser')
 const Player = require('../models/Player')
 const PlayerStats = require('../models/PlayerStats')
+const GamePlayerStats = require('../models/GamePlayerStats')
 const Team = require('../models/Team')
 const Game = require('../models/Game')
 const Season = require('../models/Season')
@@ -241,6 +242,30 @@ router.get('/playerData/:name/:season', async (req, res) => {
 
     if (playerData) {
         res.send(JSON.stringify(playerData))
+    }
+})
+
+router.get('/gamePlayerData/:name', async (req, res) => {
+    const gamePlayerData = await GamePlayerStats.find(req.params)
+
+    if (gamePlayerData) {
+        res.send(JSON.stringify(gamePlayerData))
+    }
+})
+
+router.get('/gamePlayerData/:name/:season', async (req, res) => {
+    const gamePlayerData = await GamePlayerStats.find(req.params)
+
+    if (gamePlayerData) {
+        res.send(JSON.stringify(gamePlayerData))
+    }
+})
+
+router.get('/gamePlayerData/:name/:season/:gameDay', async (req, res) => {
+    const gamePlayerData = await GamePlayerStats.find(req.params)
+
+    if (gamePlayerData) {
+        res.send(JSON.stringify(gamePlayerData))
     }
 })
 

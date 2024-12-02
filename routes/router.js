@@ -11,7 +11,6 @@ const Game = require('../models/Game')
 const Season = require('../models/Season')
 const Vote = require('../models/VoteObject')
 const { currentActiveSeason } = require('../config.json')
-// const { signup, signin } = require('../controllers/user')
 
 const app = express()
 
@@ -27,26 +26,6 @@ router.get('/', async (req, res) => {
     res.sendFile(path.join(__dirname, '../views', 'index.html'))
 })
 
-// User Related Routes      ----------------------------------------------------------------------------------------
-router.post('/signup/:un/:pwd', async (req, res) => {
-    const userExists = await User.findOne({username: req.params.un})
-
-    if (userExists) {
-        return res.status(409).json({
-            sucess: false,
-            message: "Username already exists."
-        })
-    }
-
-    let userData = new User({username: req.params.un, password: req.params.pwd})
-    await userData.save()
-    userData = await User.find({username: req.params.un, password: req.params.pwd})
-
-    if (userData) {
-        res.send(JSON.stringify(userData))
-    }
-})
-
 router.post('/signin/:un/:pwd', async (req, res) => {
     const userExists = await User.findOne({username: req.params.un})
 
@@ -56,10 +35,11 @@ router.post('/signin/:un/:pwd', async (req, res) => {
             message: "Password incorrect."
         })
     }
-    console.log(userExists)
+    let userData = await User.findOne({username: req.params.un, password: req.params.pwd})
+    console.log(userData)
 
-    if (userExists) {
-        res.send(JSON.stringify(userExists))
+    if (userData) {
+        res.send(JSON.stringify(userData))
     }
 })
 
@@ -448,7 +428,7 @@ async function getTeams(seasonData) {
 
 async function getSchedule(teamsData, seasonDatas) {
     let schedInfo = []
-    for (j = seasonDatas[0].seasonDay-1; j < Math.min(seasonDatas[0].seasonDay+5, 45); j++) {
+    for (j = seasonDatas[0].seasonDay; j < Math.min(seasonDatas[0].seasonDay+4, 45); j++) {
         let schedDay = await getDay(j, teamsData, seasonDatas)
         schedInfo.push(schedDay)
     }

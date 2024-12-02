@@ -9,7 +9,7 @@ const GamePlayerStats = require('../models/GamePlayerStats')
 const Team = require('../models/Team')
 const Game = require('../models/Game')
 const Season = require('../models/Season')
-const Vote = require('../models/VoteObject')
+const Vote = require('../models/OldVote')
 const { currentActiveSeason } = require('../config.json')
 
 const app = express()

@@ -400,8 +400,16 @@ router.get('/votes/', async (req, res) => {
     }
 })
 
-router.get('/votes/:type', async (req, res) => {
-    let votes = await Vote.find({voteType: req.params.type})
+router.get('/votes/:season', async (req, res) => {
+    let votes = await Vote.find({season: req.params.season})
+
+    if (votes) {
+        res.send(votes)
+    }
+})
+
+router.get('/votes/:season/:type', async (req, res) => {
+    let votes = await Vote.find({season: req.params.season, voteType: req.params.type})
 
     if (votes) {
         res.send(votes)

@@ -27,6 +27,11 @@ const oldVoteDataSchema = new Schema({
         required: true,
         default: [],
     },
+    season: { // Season this vote was in
+        type: Number,
+        required: true,
+        default: 0,
+    },
 });
 
 module.exports = model('OldVoteData', oldVoteDataSchema, "oldvotes");

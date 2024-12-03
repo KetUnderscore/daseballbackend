@@ -356,7 +356,7 @@ router.get('/seasonSchedule/:seasonNumber', async (req, res) => {
 
 // Game Related Routes ----------------------------------------------------------------------------------------
 router.get('/games/', async (req, res) => {
-    const gameData = await Game.find()
+    const gameData = await Game.find().exec()
 
     if (gameData) {
         res.send(gameData)

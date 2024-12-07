@@ -420,7 +420,7 @@ module.exports = router
 
 async function getTeams(seasonData) {
     let teamersData = []
-    if (seasonData[0].seasonDay >= 46) {
+    if (seasonData[0].seasonDay >= 45) {
         for (x = 0; x < seasonData[0].playoffTeams.length; x++) {
             let team = await Team.find({teamName: seasonData[0].playoffTeams[x]})
             teamersData.push(team[0])
@@ -441,7 +441,7 @@ async function getSchedule(teamsData, seasonDatas) {
         schedInfo.push(schedDay)
     }
         
-    if (seasonDatas[0].seasonDay >= 46) {
+    if (seasonDatas[0].seasonDay >= 45) {
         if (seasonDatas[0].postSeasonWeather[seasonDatas[0].seasonDay-46].length === 1) {
             for (j = seasonDatas[0].seasonDay-1; j < 55; j++) {
             let schedDay = await getDay(j-45, teamsData, seasonDatas)

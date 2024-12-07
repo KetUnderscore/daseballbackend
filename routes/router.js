@@ -356,7 +356,7 @@ router.get('/seasonSchedule/:seasonNumber', async (req, res) => {
 
 // Game Related Routes ----------------------------------------------------------------------------------------
 router.get('/games/', async (req, res) => {
-    const gameData = await Game.find().exec()
+    const gameData = await Game.find({}).exec()
 
     if (gameData) {
         res.send(gameData)
@@ -442,13 +442,13 @@ async function getSchedule(teamsData, seasonDatas) {
     }
         
     if (seasonDatas[0].seasonDay >= 45) {
-        if (seasonDatas[0].postSeasonWeather[seasonDatas[0].seasonDay-46].length === 1) {
-            for (j = seasonDatas[0].seasonDay-1; j < 55; j++) {
+        if (seasonDatas[0].postSeasonWeather[seasonDatas[0].seasonDay-45].length === 1) {
+            for (j = seasonDatas[0].seasonDay; j < 55; j++) {
             let schedDay = await getDay(j-45, teamsData, seasonDatas)
             schedInfo.push(schedDay)
             }
         } else {
-            for (j = seasonDatas[0].seasonDay-1; j < 50; j++) {
+            for (j = seasonDatas[0].seasonDay; j < 50; j++) {
                 let schedDay = await getDay(j-45, teamsData, seasonDatas)
                 schedInfo.push(schedDay)
             }

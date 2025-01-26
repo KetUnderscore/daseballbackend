@@ -1,18 +1,13 @@
 const { Schema, model } = require('mongoose');
-jwt = require("jsonwebtoken")
 
 const siteUserDataSchema = new Schema({
     username: {
         type: String,
-        trim: true,
-        required: [true, 'Please enter username.'],
-        maxLength: 32,
+        required: true,
     },
     password: {
         type: String,
         required: true,
-        required: [true, 'Please enter password.'],
-        minLength: [6, 'Password must be at least 6 characters long.'],
     },
     favTeam: {
         type: String,
@@ -24,7 +19,7 @@ const siteUserDataSchema = new Schema({
     },
     coins: {
         type: Number,
-        default: 10,
+        default: 100,
     },
     bets: {
         type: Number,
@@ -53,12 +48,5 @@ const siteUserDataSchema = new Schema({
         default: [],
     },
 }, {timestamps: true});
-
-// Get the token
-siteUserDataSchema.methods.jwtGenerateToken = function() {
-    return jwt.sign({
-        id: this.id
-    }, process.env.JWT, {expiresIn: 3600})
-}
 
 module.exports = model('SiteUserData', siteUserDataSchema, "siteusers");

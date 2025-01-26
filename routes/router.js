@@ -11,6 +11,7 @@ const Game = require('../models/Game')
 const Season = require('../models/Season')
 const Vote = require('../models/OldVote')
 const { currentActiveSeason } = require('../config.json')
+const bcrypt = require('bcrypt')
 
 const app = express()
 
@@ -26,17 +27,26 @@ router.get('/', async (req, res) => {
     res.sendFile(path.join(__dirname, '../views', 'index.html'))
 })
 
-router.post('/signin/:un/:pwd', async (req, res) => {
+router.get('/signin/:un/:pwd', async (req, res) => {
     const userExists = await User.findOne({username: req.params.un})
+    
+    if (!userExists) {
+        return res.status(401).json({
+            sucess: false,
+            message: "User does not exist."
+        })
+    }
 
-    if (userExists && userExists.password != req.params.pwd) {
+    const match = await bcrypt.compare(req.params.pwd, userExists.password)
+
+    if (!match) {
         return res.status(409).json({
             sucess: false,
             message: "Password incorrect."
         })
     }
-    let userData = await User.findOne({username: req.params.un, password: req.params.pwd})
-    console.log(userData)
+
+    const userData = await User.findOne({username: req.params.un}).select('-password').lean()
 
     if (userData) {
         res.send(JSON.stringify(userData))
@@ -225,6 +235,14 @@ router.get('/playerData/:name/:season', async (req, res) => {
     }
 })
 
+router.get('/gamePlayerData/', async (req, res) => {
+    const gamePlayerData = await GamePlayerStats.find({})
+
+    if (gamePlayerData) {
+        res.send(JSON.stringify(gamePlayerData))
+    }
+})
+
 router.get('/gamePlayerData/:name', async (req, res) => {
     const gamePlayerData = await GamePlayerStats.find(req.params)
 
@@ -332,18 +350,20 @@ router.get('/season/:seasonNumber', async (req, res) => {
     }
 })
 
-router.get('/seasonSchedule/:seasonNumber', async (req, res) => {
+router.get('/seasonSchedule', async (req, res) => {
     const delay = millis => new Promise((resolve, reject) => {
         setTimeout(_ => resolve(), millis)
     });
 
-    let seasonData = await Season.find(req.params).exec()
+    let seasonData = await Season.find({ seasonNumber: currentActiveSeason }).exec()
 
     let teamsData
     await getTeams(seasonData)
         .then(result => {
             teamsData = result;
         })
+
+    console.log(teamsData.length)
 
     let schedInfo = await getSchedule(teamsData, seasonData)
 
@@ -384,7 +404,9 @@ router.get('/games/:season/:day', async (req, res) => {
     if (req.params.day) {
         day = req.params.day
     }
-    const gameData = await Game.find({season: season, gameDay: day}).exec()
+    let gameData = await Game.find({season: season, gameDay: day}).exec()
+
+    gameData.sort((a, b) => a.gameOver - b.gameOver);
 
     if (gameData) {
         res.send(gameData)
@@ -426,7 +448,7 @@ async function getTeams(seasonData) {
             teamersData.push(team[0])
         }
     } else {
-        for (x = 0; x < seasonData[0].teamLayout.length; x++) {
+        for (x = 0; x < 12; x++) {
             let team = await Team.find({teamName: seasonData[0].teamLayout[x]})
             teamersData.push(team[0])
         }

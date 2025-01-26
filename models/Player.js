@@ -109,6 +109,12 @@ const playerDataSchema = new Schema({
         required: true,
         default: []
     },
+    sitefans: {
+        name: 'Site Fans',
+        type: Array,
+        required: true,
+        default: []
+    },
     birthday: {
         name: 'Birthday',
         type: Number,

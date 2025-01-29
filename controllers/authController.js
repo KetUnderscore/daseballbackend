@@ -52,8 +52,7 @@ const login = asyncHandler(async (req, res) => {
         httpOnly: true, // web only
         secure: false,
         sameSite: 'lax',
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-        partitioned: true
+        maxAge: 7 * 24 * 60 * 60 * 1000
     })
     
     var jsonValue = JSON.stringify({
@@ -72,8 +71,7 @@ const login = asyncHandler(async (req, res) => {
             httpOnly: false, // web only
             secure: false,
             sameSite: 'lax',
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-            partitioned: true
+            maxAge: 7 * 24 * 60 * 60 * 1000
         }
     )
 

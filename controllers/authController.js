@@ -50,7 +50,7 @@ const login = asyncHandler(async (req, res) => {
     // Send accessToken containing user info
     res.cookie('jwt', refreshToken, {
         httpOnly: true, // web only
-        secure: true,
+        secure: false,
         sameSite: 'None',
         maxAge: 7 * 24 * 60 * 60 * 1000,
         partitioned: true
@@ -70,7 +70,7 @@ const login = asyncHandler(async (req, res) => {
     res.cookie('userInfo', jsonValue,
         {
             httpOnly: false, // web only
-            secure: true,
+            secure: false,
             sameSite: 'None',
             maxAge: 7 * 24 * 60 * 60 * 1000,
             partitioned: true

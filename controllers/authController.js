@@ -77,20 +77,18 @@ const login = asyncHandler(async (req, res) => {
         }
     )
 
-    res.userInfo(
-        {
-            "id": foundUser._id,
-            "username": foundUser.username,
-            "favTeam": foundUser.favTeam,
-            "favPlayer": foundUser.favplayer,
-            "coins": foundUser.coins,
-            "bets": foundUser.bets,
-            "item": foundUser.item,
-            "betMatrix": foundUser.betMatrix
-        }
-    )
+    const userInfo = {
+        "id": foundUser._id,
+        "username": foundUser.username,
+        "favTeam": foundUser.favTeam,
+        "favPlayer": foundUser.favplayer,
+        "coins": foundUser.coins,
+        "bets": foundUser.bets,
+        "item": foundUser.item,
+        "betMatrix": foundUser.betMatrix
+    }
 
-    res.send()
+    res.send({ userInfo })
 })
 
 // @desc    Refresh

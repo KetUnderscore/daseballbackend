@@ -37,14 +37,16 @@ const login = asyncHandler(async (req, res) => {
             }
         },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '1m' }
+        { expiresIn: '1m' },
+        partitioned
     )
     
     // Create secure cookie with refresh token
     const refreshToken = jwt.sign(
         { "username": foundUser.username },
         process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: '7d' }
+        { expiresIn: '7d' },
+        partitioned
     )
     
     // Send accessToken containing user info
@@ -52,7 +54,8 @@ const login = asyncHandler(async (req, res) => {
         httpOnly: true, // web only
         secure: true,
         sameSite: 'None',
-        maxAge: 7 * 24 * 60 * 60 * 1000
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        partitioned
     })
     
     var jsonValue = JSON.stringify({
@@ -71,7 +74,8 @@ const login = asyncHandler(async (req, res) => {
             httpOnly: false, // web only
             secure: true,
             sameSite: 'None',
-            maxAge: 7 * 24 * 60 * 60 * 1000
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            partitioned
         }
     )
 
@@ -115,7 +119,8 @@ const refresh = (req, res) => {
                     }
                 },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '1m' }
+                { expiresIn: '1m' },
+                partitioned
             )
 
             res.json({ accessToken })

@@ -92,7 +92,7 @@ const login = asyncHandler(async (req, res) => {
 })
 
 // @desc    Refresh
-// @route   GET /auth/refresh
+// @route   POST /auth/refresh
 // @access  Public - because access token has expired
 const refresh = (req, res) => {
     const { username } = req.body

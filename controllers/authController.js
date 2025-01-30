@@ -88,7 +88,7 @@ const login = asyncHandler(async (req, res) => {
         "betMatrix": foundUser.betMatrix
     }
 
-    res.send({info: userInfo})
+    res.send(JSON.stringify(userInfo))
 })
 
 // @desc    Refresh

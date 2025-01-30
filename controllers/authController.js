@@ -95,6 +95,7 @@ const login = asyncHandler(async (req, res) => {
 // @route   GET /auth/refresh
 // @access  Public - because access token has expired
 const refresh = (req, res) => {
+    const { username } = req.body
     const cookies = req.cookies
 
     if (!foundUser) {
@@ -114,7 +115,7 @@ const refresh = (req, res) => {
                 return res.status(403).json({ message: 'Forbidden' })
             }
 
-            const foundUser = await User.findOne({ username: decoded.username })
+            const foundUser = await User.findOne({ username: username })
 
             if (!foundUser) return res.status(401).json({ message: 'Unauthorized' })
 

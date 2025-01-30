@@ -107,7 +107,18 @@ const change = asyncHandler(async (req, res) => {
         }
     )
 
-    res.send()
+    const userInfo = {
+        "id": foundUser._id,
+        "username": foundUser.username,
+        "favTeam": foundUser.favTeam,
+        "favPlayer": foundUser.favplayer,
+        "coins": foundUser.coins,
+        "bets": foundUser.bets,
+        "item": foundUser.item,
+        "betMatrix": foundUser.betMatrix
+    }
+
+    res.send(userInfo)
 })
 
 // @desc    Team Update
@@ -184,7 +195,18 @@ const teamup = asyncHandler(async (req, res) => {
         }
     )
 
-    res.send()
+    const userInfo = {
+        "id": foundUser._id,
+        "username": foundUser.username,
+        "favTeam": foundUser.favTeam,
+        "favPlayer": foundUser.favplayer,
+        "coins": foundUser.coins,
+        "bets": foundUser.bets,
+        "item": foundUser.item,
+        "betMatrix": foundUser.betMatrix
+    }
+
+    res.send(userInfo)
 })
 
 // @desc    Team Bet
@@ -294,7 +316,18 @@ const bet = asyncHandler(async (req, res) => {
         }
     )
 
-    res.send()
+    const userInfo = {
+        "id": foundUser._id,
+        "username": foundUser.username,
+        "favTeam": foundUser.favTeam,
+        "favPlayer": foundUser.favplayer,
+        "coins": foundUser.coins,
+        "bets": foundUser.bets,
+        "item": foundUser.item,
+        "betMatrix": foundUser.betMatrix
+    }
+
+    res.send(userInfo)
 })
 
 module.exports = {

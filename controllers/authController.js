@@ -131,7 +131,18 @@ const refresh = (req, res) => {
                 { expiresIn: '1m' }
             )
 
-            res.json({ accessToken })
+            const userInfo = {
+                "id": foundUser._id,
+                "username": foundUser.username,
+                "favTeam": foundUser.favTeam,
+                "favPlayer": foundUser.favplayer,
+                "coins": foundUser.coins,
+                "bets": foundUser.bets,
+                "item": foundUser.item,
+                "betMatrix": foundUser.betMatrix
+            }
+        
+            res.send(userInfo)
         })
     )
 }

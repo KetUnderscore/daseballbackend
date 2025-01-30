@@ -97,6 +97,10 @@ const login = asyncHandler(async (req, res) => {
 const refresh = (req, res) => {
     const cookies = req.cookies
 
+    if (!foundUser) {
+        return res.status(401).json({ message: 'Unauthorized' })
+    }
+
     if (!cookies?.jwt) return res.status(401).json({ message: 'Unauthorized' })
 
     const refreshToken = cookies.jwt

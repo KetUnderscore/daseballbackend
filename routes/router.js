@@ -236,7 +236,7 @@ router.get('/playerData/:name/:season', async (req, res) => {
 })
 
 router.get('/gamePlayerData/', async (req, res) => {
-    const gamePlayerData = await GamePlayerStats.find({})
+    const gamePlayerData = await GamePlayerStats.find({}).sort({season: -1, gameDay: -1})
 
     if (gamePlayerData) {
         res.send(JSON.stringify(gamePlayerData))
@@ -244,7 +244,7 @@ router.get('/gamePlayerData/', async (req, res) => {
 })
 
 router.get('/gamePlayerData/:name', async (req, res) => {
-    const gamePlayerData = await GamePlayerStats.find(req.params)
+    const gamePlayerData = await GamePlayerStats.find(req.params).sort({season: -1, gameDay: -1})
 
     if (gamePlayerData) {
         res.send(JSON.stringify(gamePlayerData))
@@ -252,7 +252,7 @@ router.get('/gamePlayerData/:name', async (req, res) => {
 })
 
 router.get('/gamePlayerData/:name/:season', async (req, res) => {
-    const gamePlayerData = await GamePlayerStats.find(req.params)
+    const gamePlayerData = await GamePlayerStats.find(req.params).sort({gameDay: -1})
 
     if (gamePlayerData) {
         res.send(JSON.stringify(gamePlayerData))

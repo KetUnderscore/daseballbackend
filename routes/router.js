@@ -494,10 +494,12 @@ async function getDay(j, teamsData, seasonDatas) {
         }
     } else {
         for (i = 0; i < teamCount; i++){
+            if (teamsData[seasonDatas[0].schedule[pointer][i]]) {
             let schedItem = JSON.parse(JSON.stringify(teamsData[seasonDatas[0].schedule[pointer][i]]))
             let pitcher = await Player.findById({_id: schedItem.pitchingRotation[pointer%schedItem.pitchingRotation.length]})
             schedItem.players = JSON.parse(JSON.stringify(pitcher))
             schedDay.push(schedItem)
+            }
         }
     }
     return schedDay

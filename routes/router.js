@@ -388,7 +388,7 @@ router.get('/games/:season', async (req, res) => {
     if (req.params.season) {
         season = req.params.season
     }
-    const gameData = await Game.find({season: season}).sort({gameDay: -1}).exec()
+    const gameData = await Game.find({season: season}).sort({gameDay: 1}).exec()
 
     if (gameData) {
         res.send(gameData)

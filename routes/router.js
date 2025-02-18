@@ -482,7 +482,7 @@ async function getSchedule(teamsData, seasonDatas) {
 async function getDay(j, teamsData, seasonDatas) {
     let pointer = j
     let schedDay = []
-    let teamCount = 11
+    let teamCount = 12
     if (seasonDatas[0].seasonDay >= 45) {
         teamCount = 4
         if (seasonDatas[0].postSeasonWeather[seasonDatas[0].seasonDay-45].length === 1) {teamCount = 2}

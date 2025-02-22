@@ -363,7 +363,10 @@ router.get('/seasonSchedule', async (req, res) => {
             teamsData = result;
         })
 
-    console.log(teamsData.length)
+    if ((teamsData.length != 4) || (teamsData.length != 12)) {
+        res.send(seasonData)
+        return
+    }
 
     let schedInfo = await getSchedule(teamsData, seasonData)
 

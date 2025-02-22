@@ -363,7 +363,9 @@ router.get('/seasonSchedule', async (req, res) => {
             teamsData = result;
         })
 
-    if ((teamsData.length != 4) || (teamsData.length != 12)) {
+    console.log(teamsData.length)
+
+    if (teamsData.length != 4 && teamsData.length != 12) {
         res.send(seasonData)
         return
     }

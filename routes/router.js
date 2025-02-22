@@ -463,7 +463,7 @@ async function getSchedule(teamsData, seasonDatas) {
         schedInfo.push(schedDay)
     }
         
-    if (seasonDatas[0].seasonDay >= 45) {
+    if (seasonDatas[0].seasonDay >= 45 && seasonDatas[0].postseasonTeamLayout.length > 0) {
         if (seasonDatas[0].postSeasonWeather[seasonDatas[0].seasonDay-45].length === 1) {
             for (j = seasonDatas[0].seasonDay; j < 55; j++) {
             let schedDay = await getDay(j-45, teamsData, seasonDatas)
@@ -483,7 +483,7 @@ async function getDay(j, teamsData, seasonDatas) {
     let pointer = j
     let schedDay = []
     let teamCount = 12
-    if (seasonDatas[0].seasonDay >= 45) {
+    if (seasonDatas[0].seasonDay >= 45 && seasonDatas[0].postseasonTeamLayout.length > 0) {
         teamCount = 4
         if (seasonDatas[0].postSeasonWeather[seasonDatas[0].seasonDay-45].length === 1) {teamCount = 2}
         for (i = 0; i < teamCount; i++){

@@ -444,12 +444,12 @@ async function getTeams(seasonData) {
     let teamersData = []
     if (seasonData[0].seasonDay >= 45) {
         for (x = 0; x < seasonData[0].playoffTeams.length; x++) {
-            let team = await Team.find({teamName: seasonData[0].playoffTeams[x]})
+            let team = await Team.find({teamName: seasonData[0].playoffTeams[x]}).exec()
             teamersData.push(team[0])
         }
     } else {
         for (x = 0; x < 12; x++) {
-            let team = await Team.find({teamName: seasonData[0].teamLayout[x]})
+            let team = await Team.find({teamName: seasonData[0].teamLayout[x]}).exec()
             teamersData.push(team[0])
         }
     }
@@ -483,12 +483,12 @@ async function getDay(j, teamsData, seasonDatas) {
     let pointer = j
     let schedDay = []
     let teamCount = 12
-    if (seasonDatas[0].seasonDay >= 45 && seasonDatas[0].postseasonTeamLayout.length > 0) {
+    if (seasonDatas[0].seasonDay >= 45) {
         teamCount = 4
         if (seasonDatas[0].postSeasonWeather[seasonDatas[0].seasonDay-45].length === 1) {teamCount = 2}
         for (i = 0; i < teamCount; i++){
             let schedItem = JSON.parse(JSON.stringify(teamsData[seasonDatas[0].postSeasonSchedule[pointer][i]]))
-            let pitcher = await Player.findById({_id: schedItem.pitchingRotation[pointer%schedItem.pitchingRotation.length]})
+            let pitcher = await Player.findById({_id: schedItem.pitchingRotation[pointer%schedItem.pitchingRotation.length]}).exec()
             schedItem.players = JSON.parse(JSON.stringify(pitcher))
             schedDay.push(schedItem)
         }
@@ -496,7 +496,7 @@ async function getDay(j, teamsData, seasonDatas) {
         for (i = 0; i < teamCount; i++){
             if (teamsData[seasonDatas[0].schedule[pointer][i]]) {
             let schedItem = JSON.parse(JSON.stringify(teamsData[seasonDatas[0].schedule[pointer][i]]))
-            let pitcher = await Player.findById({_id: schedItem.pitchingRotation[pointer%schedItem.pitchingRotation.length]})
+            let pitcher = await Player.findById({_id: schedItem.pitchingRotation[pointer%schedItem.pitchingRotation.length]}).exec()
             schedItem.players = JSON.parse(JSON.stringify(pitcher))
             schedDay.push(schedItem)
             }

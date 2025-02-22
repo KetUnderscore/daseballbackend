@@ -7,5 +7,8 @@ router.route('/player')
     
 router.route('/team')
 .post(favoriteController.teamup)
+    
+router.route('/bet')
+.post(favoriteController.bet)
 
 module.exports = router

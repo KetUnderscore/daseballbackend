@@ -357,6 +357,12 @@ router.get('/seasonSchedule', async (req, res) => {
 
     let seasonData = await Season.find({ seasonNumber: currentActiveSeason }).exec()
 
+    if (seasonData.seasonState == 2) {
+        seasonData = []
+        res.send(seasonData)
+        return
+    }
+
     let teamsData
     await getTeams(seasonData)
         .then(result => {

@@ -204,7 +204,7 @@ router.get('/player/:name', async (req, res) => {
 })
 
 router.get('/playerbyid/:_id', async (req, res) => {
-    const playerData = await Player.find(req.params)
+    const playerData = await Player.findOne(req.params)
 
     if (playerData) {
         res.send(playerData)
@@ -382,9 +382,12 @@ router.get('/seasonSchedule', async (req, res) => {
     if (teamsData == null) {
         seasonData = []
         res.send(seasonData)
+        return
     }
 
-    seasonData[0].scheduleTeamInfo = teamsData
+    if (seasonData[0].scheduleTeamInfo) {
+        seasonData[0].scheduleTeamInfo = teamsData
+    }
 
     if (seasonData) {
         res.send(seasonData)

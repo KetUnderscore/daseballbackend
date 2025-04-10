@@ -379,6 +379,11 @@ router.get('/seasonSchedule', async (req, res) => {
             teamsData = result;
         })
 
+    if (teamsData == null) {
+        seasonData = []
+        res.send(seasonData)
+    }
+
     seasonData[0].scheduleTeamInfo = teamsData
 
     if (seasonData) {
@@ -469,12 +474,16 @@ async function getTeams(seasonData) {
 }
 
 async function getPitchers(teamsData) {
-    for (j = 0; j < teamsData.length; j++) {
-        teamsData[j].players = []
-        for (k = 0; k < teamsData[j].pitchingRotation.length; k++) {
-            let pitcher = await Player.findOne({_id: teamsData[j].pitchingRotation[k]}).exec()
-            teamsData[j].players.push(pitcher)
+    try {
+        for (j = 0; j < teamsData.length; j++) {
+            teamsData[j].players = []
+            for (k = 0; k < teamsData[j].pitchingRotation.length; k++) {
+                let pitcher = await Player.findOne({_id: teamsData[j].pitchingRotation[k]}).exec()
+                teamsData[j].players.push(pitcher)
+            }
         }
+    } catch (error) {
+        return null;
     }
 
     return teamsData;

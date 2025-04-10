@@ -373,10 +373,14 @@ router.get('/seasonSchedule', async (req, res) => {
         res.send(seasonData)
         return
     }
+    
+    await getPitchers(teamsData)
+        .then(result => {
+            teamsData = result;
+        })
 
-    let schedInfo = await getSchedule(teamsData, seasonData)
-
-    seasonData[0].scheduleTeamInfo = schedInfo
+    console.log(teamsData)
+    seasonData[0].scheduleTeamInfo = teamsData
 
     if (seasonData) {
         res.send(seasonData)
@@ -465,27 +469,16 @@ async function getTeams(seasonData) {
     return teamersData;
 }
 
-async function getSchedule(teamsData, seasonDatas) {
-    let schedInfo = []
-    for (j = seasonDatas[0].seasonDay; j < Math.min(seasonDatas[0].seasonDay+4, 45); j++) {
-        let schedDay = await getDay(j, teamsData, seasonDatas)
-        schedInfo.push(schedDay)
-    }
-        
-    if (seasonDatas[0].seasonDay >= 45) {
-        if (seasonDatas[0].postSeasonWeather[seasonDatas[0].seasonDay-45].length === 1) {
-            for (j = seasonDatas[0].seasonDay; j < 55; j++) {
-            let schedDay = await getDay(j-45, teamsData, seasonDatas)
-            schedInfo.push(schedDay)
-            }
-        } else {
-            for (j = seasonDatas[0].seasonDay; j < 50; j++) {
-                let schedDay = await getDay(j-45, teamsData, seasonDatas)
-                schedInfo.push(schedDay)
-            }
+async function getPitchers(teamsData) {
+    for (j = 0; j < teamsData.length; j++) {
+        teamsData[j].players = []
+        for (k = 0; k < teamsData[j].pitchingRotation.length; k++) {
+            let pitcher = await Player.findById({_id: teamsData[j].pitchingRotation[k]}).exec()
+            teamsData[j].players.push(pitcher)
         }
     }
-    return schedInfo;
+
+    return teamsData;
 }
 
 async function getDay(j, teamsData, seasonDatas) {

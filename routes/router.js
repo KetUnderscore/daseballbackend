@@ -379,7 +379,6 @@ router.get('/seasonSchedule', async (req, res) => {
             teamsData = result;
         })
 
-    console.log(teamsData)
     seasonData[0].scheduleTeamInfo = teamsData
 
     if (seasonData) {
@@ -473,36 +472,10 @@ async function getPitchers(teamsData) {
     for (j = 0; j < teamsData.length; j++) {
         teamsData[j].players = []
         for (k = 0; k < teamsData[j].pitchingRotation.length; k++) {
-            let pitcher = await Player.findById({_id: teamsData[j].pitchingRotation[k]}).exec()
+            let pitcher = await Player.find({_id: teamsData[j].pitchingRotation[k]}).exec()
             teamsData[j].players.push(pitcher)
         }
     }
 
     return teamsData;
-}
-
-async function getDay(j, teamsData, seasonDatas) {
-    let pointer = j
-    let schedDay = []
-    let teamCount = 12
-    if (seasonDatas[0].seasonDay >= 45) {
-        teamCount = 4
-        if (seasonDatas[0].postSeasonWeather[seasonDatas[0].seasonDay-45].length === 1) {teamCount = 2}
-        for (i = 0; i < teamCount; i++){
-            let schedItem = JSON.parse(JSON.stringify(teamsData[seasonDatas[0].postSeasonSchedule[pointer][i]]))
-            let pitcher = await Player.findById({_id: schedItem.pitchingRotation[pointer%schedItem.pitchingRotation.length]}).exec()
-            schedItem.players = JSON.parse(JSON.stringify(pitcher))
-            schedDay.push(schedItem)
-        }
-    } else {
-        for (i = 0; i < teamCount; i++){
-            if (teamsData[seasonDatas[0].schedule[pointer][i]]) {
-            let schedItem = JSON.parse(JSON.stringify(teamsData[seasonDatas[0].schedule[pointer][i]]))
-            let pitcher = await Player.findById({_id: schedItem.pitchingRotation[pointer%schedItem.pitchingRotation.length]}).exec()
-            schedItem.players = JSON.parse(JSON.stringify(pitcher))
-            schedDay.push(schedItem)
-            }
-        }
-    }
-    return schedDay
 }

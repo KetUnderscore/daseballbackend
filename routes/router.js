@@ -204,7 +204,7 @@ router.get('/player/:name', async (req, res) => {
 })
 
 router.get('/playerbyid/:_id', async (req, res) => {
-    const playerData = await Player.findOne(req.params)
+    const playerData = await Player.find(req.params).exec()
 
     if (playerData) {
         res.send(playerData)

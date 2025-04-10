@@ -472,7 +472,7 @@ async function getPitchers(teamsData) {
     for (j = 0; j < teamsData.length; j++) {
         teamsData[j].players = []
         for (k = 0; k < teamsData[j].pitchingRotation.length; k++) {
-            let pitcher = await Player.find({_id: teamsData[j].pitchingRotation[k]}).exec()
+            let pitcher = await Player.findOne({_id: teamsData[j].pitchingRotation[k]}).exec()
             teamsData[j].players.push(pitcher)
         }
     }

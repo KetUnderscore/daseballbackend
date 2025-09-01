@@ -385,7 +385,9 @@ router.get('/seasonSchedule', async (req, res) => {
         return
     }
 
-    seasonData[0].scheduleTeamInfo = teamsData
+    if (seasonData[0].scheduleTeamInfo) {
+        seasonData[0].scheduleTeamInfo = teamsData
+    }
 
     if (seasonData) {
         res.send(seasonData)

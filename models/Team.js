@@ -97,9 +97,38 @@ const teamDataSchema = new Schema({
         type: Number,
         default: 0,
     },
-    spiritFund: { // Starts at 0, maxes at 10k
+    spirit: { // Starts at 0, shows spirit level
         type: Number,
         default: 0,
+    },
+    spiritFund: { // Starts at 0, maxes at Max
+        type: Number,
+        default: 0,
+    },
+    spiritMax: { // Spirit Fund max
+        type: Number,
+        default: 10000,
+    },
+    stadium: {
+        name: 'Stadium',
+        type: Object,
+        required: true,
+        default: {
+            name:"???",
+            description:"???",
+            emoji:"?",
+            stats:[
+                0, // Air Quality | Higher for batting buff, lower for pitching buff
+                0, // Ground Roughness | Higher for running buff, lower for fielding buff
+                0, // Sky Density | Higher to call weather, lower to not
+                0, // Length | Higher for batting debuff, lower for batting buff
+                0, // Plength | Higher for pitching debuff, lower for pitching buff
+                0, // Width | Higher for running debuff, lower for running buff
+                0, // Height | Higher for fielding debuff, lower for fielding buff
+                0, // Confectionary | Higher for more parties, lower for more loot crates
+            ],
+            modifiers:[],
+        }
     },
 });
 
